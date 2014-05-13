@@ -14,11 +14,12 @@
                 $(".tree-container").find("#" + tree).show().addClass("opened");
                 treeOpen = tree;
                 currentQuestion = 1;
-                $(".tree-container").find("#" + tree).find(".question").removeClass("current");
-                $(".tree-container").find("#" + tree).find(".question").first().addClass("current");
-                $(".tree-container").find("#" + tree).find(".question").not(".current").hide();
-                $(".tree-container").find("#" + tree).find(".question").first().addClass("current");
-                $(".tree-container").find("#" + tree).find(".question").first().find(".options").show();
+                var $question = $(".tree-container").find("#" + tree).find(".question");
+                $question.removeClass("current");
+                $question.first().addClass("current");
+                $question.not(".current").hide();
+                $question.first().addClass("current");
+                $question.first().find(".options").show();
             }
             
             function goToNextQuestion() {
@@ -99,6 +100,34 @@
                             $this.fadeOut();
                         }
                     });                                      
+                });
+                
+                //Open questions out of order
+                $(".text").on("click", function(){
+                    var $this = $(this);
+                    var $question = $this.parents(".question");
+                    var $tree = $question.parents(".tree");
+                    
+                    //Remove all current classes
+                    $tree.find(".question").removeClass("current");
+                    
+                    //Display first question
+                    $question.addClass("current");
+                    $question.find(".options").show();
+                    
+                    //Hide all questions after current
+                    var foundCurrent = false;
+                    var count = 0;
+                    $tree.find(".question").each(function(){
+                        count++;
+                        if (foundCurrent) $(this).fadeOut();                        
+                        if($(this).hasClass("current")){
+                            foundCurrent = true;
+                            currentQuestion = count;
+                        }
+                    });
+                    
+                    console.log(currentQuestion);
                 });
             });
         </script>
@@ -187,7 +216,9 @@
                 padding-top: 20px;
                 padding-left: 20px;
                 font-size: 25px;
-            }
+            }  
+            
+            .question .text:hover{ cursor: pointer; opacity: 0.8;}
             
             .question .selections{
                 float:left;
