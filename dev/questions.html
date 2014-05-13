@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>FYS Prototype</title>        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
+        
+        <script>
+            var treeOpen = "";
+            var currentQuestion = 0;
+            
+            function openTree(tree){            
+                $(".tree").hide();
+                $(".tree-container").find("#" + tree).show().addClass("opened");
+                treeOpen = tree;
+                currentQuestion = 1;
+                $(".tree-container").find("#" + tree).find(".question").removeClass("current");
+                $(".tree-container").find("#" + tree).find(".question").first().addClass("current");
+                $(".tree-container").find("#" + tree).find(".question").not(".current").hide();
+                $(".tree-container").find("#" + tree).find(".question").first().addClass("current");
+                $(".tree-container").find("#" + tree).find(".question").first().find(".options").show();
+            }
+            
+            function goToNextQuestion() {
+                if ($("#" + treeOpen + "-q" + currentQuestion).hasClass("current") && $("#" + treeOpen + "-q" + (currentQuestion + 1)).length) {
+                    $("#" + treeOpen + "-q" + currentQuestion).removeClass("current");
+                    $("#" + treeOpen + "-q" + currentQuestion).find(".options").fadeOut();
+                    currentQuestion++;
+                    $("#" + treeOpen + "-q" + currentQuestion).fadeIn();
+                    $("#" + treeOpen + "-q" + currentQuestion).find(".options").show();
+                    $("#" + treeOpen + "-q" + currentQuestion).addClass("current");
+                }                
+            }
+            
+            function goToPreviousQuestion(){
+                if ($("#" + treeOpen + "-q" + currentQuestion).hasClass("current") && currentQuestion > 0) {
+                    $("#" + treeOpen + "-q" + currentQuestion).removeClass("current");                    
+                    $("#" + treeOpen + "-q" + currentQuestion).fadeOut();
+                    currentQuestion--;
+                    $("#" + treeOpen + "-q" + currentQuestion).addClass("current");
+                    $("#" + treeOpen + "-q" + currentQuestion).find(".options").fadeIn();
+                }
+            }
+            
+            $(document).ready(function(){
+                //Drop down for first question
+                $("#first-question #options").on("click", function(){
+                    var $this = $(this);
+                    //If it is not opened yet
+                    if (!$this.hasClass("opened")) {
+                        $this.find("p").each(function(){ $(this).show();});
+                        $this.animate({ height: 200}, 100, function(){ $this.addClass("opened"); });
+                        $("#first-question ").animate({ marginBottom: 165}, 100);
+                    }
+                    else{                        
+                        $this.find("p").each(function(){ $(this).hide();});
+                        $this.find("selected").each(function(){ $(this).css("display", "block");});
+                        $this.animate({ height: 50}, 100, function(){
+                            $this.removeClass("opened");
+                            openTree($this.find(".selected").attr("id"));
+                        });
+                        $("#first-question").animate({ marginBottom: 15}, 100);
+                    }
+                });
+                
+                //Select tree to follow
+                $("#first-question #options p").on("click", function(){
+                    $("#first-question #options p").removeClass("selected");
+                    $(this).addClass("selected");
+                });
+                
+                //Toggle the selections
+                $(".question .options div").on("click", function(){
+                    var $this = $(this);
+                    if ($this.hasClass("forward")) {
+                        goToNextQuestion();
+                    }
+                    else if ($this.hasClass("backward")) {
+                        goToPreviousQuestion();
+                    }
+                    else if ($this.parents(".question").hasClass("one-choice")) { //Single choice question
+                        $this.parents(".question").find(".options div").removeClass("clicked");
+                        $this.parents(".question").find(".selections div").hide();
+                        $this.addClass("clicked");
+                        $("#" + $this.attr("id") + "-sel").fadeIn();
+                    }
+                    else{ //Multiple choice question
+                        if ($this.hasClass("clicked")) { $("#" + $this.attr("id") + "-sel").fadeOut(); }
+                        else{ $("#" + $this.attr("id") + "-sel").fadeIn(); }
+                        $this.toggleClass("clicked");
+                    }
+                });
+                
+                $(".question .selections div").on("click", function(){
+                    var $this = $(this);
+                    $(".question .options div").each(function(){
+                        if ($(this).attr("id") + "-sel" == $this.attr("id")) {
+                            $(this).removeClass("clicked");
+                            $this.fadeOut();
+                        }
+                    });                                      
+                });
+            });
+        </script>
+        
+        <style>
+            body{margin: 0px;}
+            
+            /*Set up page*/
+            .page{
+                width: 100%;
+                background-color: black;
+                overflow: hidden;
+            }
+            
+            .container{
+                width: 980px;
+                height: 100%;
+                margin: 0 auto;
+                background-color: black;
+            }
+            
+            /*Intro question*/
+            #first-question{
+                background-color: red;
+                width: 980px;
+                height: 50px;                
+                font-family: Helvetica;
+                font-size: 25px;
+            }
+            
+            #first-question .text{
+                float: left;
+                margin-top: 10px;
+                margin-left: 270px;
+                margin-right: 20px;    
+            }
+            
+            #first-question #options{
+                width: 100px;
+                height: 50px;
+                float: left;
+                font-size: 22px;
+                padding-left: 15px;
+                padding-right: 15px;
+                overflow: hidden;
+                background: red;
+            }
+          
+            #first-question #options:hover{ cursor: pointer; }
+            
+            #first-question #options p{
+                margin: 0px;
+                padding-top: 13px;
+                padding-bottom: 11px;
+                text-align: center;
+            }
+            
+            #first-question #options p:hover{ background: green;}                    
+            #first-question #options .selected{ display: block !important; }
+            
+            /* Tree */
+            .tree-container{
+                margin-bottom: 15px;    
+            }
+            
+            .tree{
+                background: red;
+                margin-top: 15px;
+                min-height: 50px;
+                display: none;
+            }
+            
+            .question{
+                width: 980px;            
+                margin-bottom: 25px;
+                float: left;
+                overfloW: hidden;
+                color: white;
+            }
+            
+            .question .text{
+                float: left;
+                width: 580px;
+                height: 55px;
+                background: green;
+                padding-top: 20px;
+                padding-left: 20px;
+                font-size: 25px;
+            }
+            
+            .question .selections{
+                float:left;
+                width: 380px;
+                height: 75px;
+                background: grey;
+            }
+            
+            .question .selections p{
+                margin: 0;
+                float: left;
+                padding-top: 5px;
+                padding-left: 5px;
+                width: 55px;
+                height: 70px;
+                overflow: hidden;                
+            }
+            
+            .question .selections div{
+                border: 1px solid yellow;
+                width: 33px;
+                height: 33px;
+                float:left;
+                display: none;
+            }
+            
+            .question .selections div:hover{ cursor: pointer; background: purple; }
+            
+            .question .options{
+                background: blue;
+                float: left;
+                width: 980px;
+                height: 100px;
+            }
+            
+            .question .options div{
+                border: 1px solid yellow;
+                width: 96px;
+                float:left;
+            }
+            .question .options div:hover{ cursor: pointer; background: purple; }
+            .question .clicked{ background: purple; }
+            
+        </style>        
+    </head>
+    
+    <body>        
+        <div class="page">
+            <div class="container">
+                
+                <div id="first-question">
+                    <div class="text">
+                        I want a safe to protect
+                    </div>
+                    <div id="options">
+                        <p id="choose" class="selected">Select</p>
+                        <p id="home">Home</p>
+                        <p id="guns">Guns</p>
+                        <p id="business">Business</p>
+                    </div>
+                </div>
+                
+                <div class="tree-container">
+                    <div id="home" class="tree"> <!-----------------HOME TREE ------------>
+                        <div id="home-q1" class="question current">
+                            <div class="text">Question 1(multiple choice)</div>
+                            <div class="selections">
+                                <p>Choices:</p>
+                                <div id="q1-option1-sel">1</div>
+                                <div id="q1-option2-sel">2</div>
+                                <div id="q1-option3-sel">3</div>
+                                <div id="q1-option4-sel">4</div>
+                                <div id="q1-option5-sel">5</div>
+                                <div id="q1-option6-sel">6</div>
+                                <div id="q1-option7-sel">7</div>
+                                <div id="q1-option8-sel">8</div>
+                                <div id="q1-option9-sel">9</div> 
+                            </div>
+                            <div class="options">
+                                <div id="q1-option1">1</div>
+                                <div id="q1-option2">2</div>
+                                <div id="q1-option3">3</div>
+                                <div id="q1-option4">4</div>
+                                <div id="q1-option5">5</div>
+                                <div id="q1-option6">6</div>
+                                <div id="q1-option7">7</div>
+                                <div id="q1-option8">8</div>
+                                <div id="q1-option9">9</div> 
+                                <div class="forward">Next</div>
+                            </div>
+                        </div>
+                        
+                        <div id="home-q2" class="question" style="display: none">
+                            <div class="text">Question 2(multiple choice)</div>
+                            <div class="selections">
+                                <p>Choices:</p>
+                                <div id="q2-option1-sel">1</div>
+                                <div id="q2-option2-sel">2</div>                                
+                            </div>
+                            <div class="options">
+                                <div class="backward">Back</div>
+                                <div id="q2-option1">1</div>
+                                <div id="q2-option2">2</div>
+                                <div class="forward">Next</div>
+                            </div>
+                        </div>
+                        
+                        <div id="home-q3" class="question one-choice" style="display: none">
+                            <div class="text">Question 3(single choice)</div>
+                            <div class="selections">
+                                <p>Choices:</p>
+                                <div id="q3-option1-sel">1</div>
+                                <div id="q3-option2-sel">2</div>                                
+                            </div>
+                            <div class="options">
+                                <div class="backward">Back</div>
+                                <div id="q3-option1">1</div>
+                                <div id="q3-option2">2</div>
+                                <div class="forward">Next</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!---------------------------------------- END HOME TREE---------------------------------------->
+                    <div id="guns" class="tree">
+                        Guns
+                    </div>
+                    <!---------------------------------------- END GUNS TREE---------------------------------------->
+                    <div id="business" class="tree">
+                        Business
+                    </div>
+                    <!---------------------------------------- END BUSINESS TREE---------------------------------------->
+                </div>
+            </div>    
+        </div>    
+    </body>
+</html>
