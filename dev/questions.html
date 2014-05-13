@@ -9,6 +9,7 @@
             var treeOpen = "";
             var currentQuestion = 0;
             
+            //Handles switching which tree is open, does not clear question selections
             function openTree(tree){            
                 $(".tree").hide();
                 $(".tree-container").find("#" + tree).show().addClass("opened");
@@ -92,6 +93,7 @@
                     }
                 });
                 
+                //Remove selection if the small icon is clicked
                 $(".question .selections div").on("click", function(){
                     var $this = $(this);
                     $(".question .options div").each(function(){
@@ -113,7 +115,7 @@
                     
                     //Display first question
                     $question.addClass("current");
-                    $question.find(".options").show();
+                    $question.find(".options").fadeIn();
                     
                     //Hide all questions after current
                     var foundCurrent = false;
@@ -126,8 +128,6 @@
                             currentQuestion = count;
                         }
                     });
-                    
-                    console.log(currentQuestion);
                 });
             });
         </script>
@@ -191,10 +191,10 @@
             }
             
             .tree{
-                background: red;
                 margin-top: 15px;
                 min-height: 50px;
                 display: none;
+                overflow: hidden;
             }
             
             .question{
