@@ -1,0 +1,6 @@
+#first-question #options:hover{ cursor: pointer; }
+#first-question #options p:hover{ background: green;}
+
+.question .text:hover{ cursor: pointer; opacity: 0.8;}
+.question .selections div:hover{ cursor: pointer; background: purple; }
+.question .options div:hover{ cursor: pointer; background: purple; }
