@@ -1,4 +1,4 @@
-My Portfolio Website
+My Projects
 =======
 
-Welcome to my website! Feel free to view any of my projects and check out the code behind them!
+This Github repo holds my portfolio website along with any personal/professional projects I have worked on
