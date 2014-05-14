@@ -24,6 +24,7 @@
                 $question.first().find(".options").show();
             }
             
+            //Goes to the next question, saves choices
             function goToNextQuestion() {
                 if ($("#" + treeOpen + "-q" + currentQuestion).hasClass("current") && $("#" + treeOpen + "-q" + (currentQuestion + 1)).length) {
                     $("#" + treeOpen + "-q" + currentQuestion).removeClass("current");
@@ -35,6 +36,7 @@
                 }                
             }
             
+            //Goes to the previous question, saves choices
             function goToPreviousQuestion(){
                 if ($("#" + treeOpen + "-q" + currentQuestion).hasClass("current") && currentQuestion > 0) {
                     $("#" + treeOpen + "-q" + currentQuestion).removeClass("current");                    
@@ -81,13 +83,13 @@
                     else if ($this.hasClass("backward")) {
                         goToPreviousQuestion();
                     }
-                    else if ($this.parents(".question").hasClass("one-choice")) { //Single choice question
+                    else if ($this.parents(".question").hasClass("one-choice")) {
                         $this.parents(".question").find(".options div").removeClass("clicked");
                         $this.parents(".question").find(".selections div").hide();
                         $this.addClass("clicked");
                         $("#" + $this.attr("id") + "-sel").fadeIn();
                     }
-                    else{ //Multiple choice question
+                    else{
                         if ($this.hasClass("clicked")) { $("#" + $this.attr("id") + "-sel").fadeOut(); }
                         else{ $("#" + $this.attr("id") + "-sel").fadeIn(); }
                         $this.toggleClass("clicked");
@@ -110,25 +112,23 @@
                     var $this = $(this);
                     var $question = $this.parents(".question");
                     var $tree = $question.parents(".tree");
-                    
-                    //Remove all current classes
+                                        
                     $tree.find(".question").removeClass("current");
-                    
-                    //Display first question
+                                        
                     $question.addClass("current");
-                    $question.find(".options").fadeIn();
-                    
-                    //Hide all questions after current
+                                                           
                     var foundCurrent = false;
                     var count = 0;
                     $tree.find(".question").each(function(){
                         count++;
-                        if (foundCurrent) $(this).fadeOut();                        
+                        $(this).find(".options").fadeOut();                        
                         if($(this).hasClass("current")){
                             foundCurrent = true;
                             currentQuestion = count;
                         }
                     });
+                    
+                    $question.find(".options").fadeIn();
                 });
             });
         </script>
