@@ -90,8 +90,12 @@
                         $("#" + $this.attr("id") + "-sel").fadeIn();
                     }
                     else{
-                        if ($this.hasClass("clicked")) { $("#" + $this.attr("id") + "-sel").fadeOut(); }
-                        else{ $("#" + $this.attr("id") + "-sel").fadeIn(); }
+                        if ($this.hasClass("clicked")) {
+                            $("#" + $this.attr("id") + "-sel").fadeOut();
+                        }
+                        else{
+                            $("#" + $this.attr("id") + "-sel").fadeIn();
+                        }
                         $this.toggleClass("clicked");
                     }
                 });
@@ -112,11 +116,10 @@
                     var $this = $(this);
                     var $question = $this.parents(".question");
                     var $tree = $question.parents(".tree");
-                                        
-                    $tree.find(".question").removeClass("current");
-                                        
+                    
+                    $tree.find(".question").removeClass("current");                                        
                     $question.addClass("current");
-                                                           
+                    
                     var foundCurrent = false;
                     var count = 0;
                     $tree.find(".question").each(function(){
@@ -166,43 +169,30 @@
                             <div class="text">Question 1(multiple choice)</div>
                             <div class="selections">
                                 <p>Choices:</p>
-                                <div id="q1-option1-sel">1</div>
-                                <div id="q1-option2-sel">2</div>
-                                <div id="q1-option3-sel">3</div>
-                                <div id="q1-option4-sel">4</div>
-                                <div id="q1-option5-sel">5</div>
-                                <div id="q1-option6-sel">6</div>
-                                <div id="q1-option7-sel">7</div>
-                                <div id="q1-option8-sel">8</div>
-                                <div id="q1-option9-sel">9</div>
-                                <div id="q1-option10-sel">10</div> 
+                                <div id="home-q1-option1-sel">1</div><div id="home-q1-option2-sel">2</div><div id="home-q1-option3-sel">3</div>
+                                <div id="home-q1-option4-sel">4</div><div id="home-q1-option5-sel">5</div><div id="home-q1-option6-sel">6</div>
+                                <div id="home-q1-option7-sel">7</div><div id="home-q1-option8-sel">8</div><div id="home-q1-option9-sel">9</div>
+                                <div id="home-q1-option10-sel">10</div> 
                             </div>
                             <div class="options">
-                                <div id="q1-option1">1</div>
-                                <div id="q1-option2">2</div>
-                                <div id="q1-option3">3</div>
-                                <div id="q1-option4">4</div>
-                                <div id="q1-option5">5</div>
-                                <div id="q1-option6">6</div>
-                                <div id="q1-option7">7</div>
-                                <div id="q1-option8">8</div>
-                                <div id="q1-option9">9</div>
-                                <div id="q1-option10">10</div>
-                                <div class="forward">Next</div>
+                                <div id="home-q1-option1">1</div><div id="home-q1-option2">2</div><div id="home-q1-option3">3</div>
+                                <div id="home-q1-option4">4</div><div id="home-q1-option5">5</div><div id="home-q1-option6">6</div>
+                                <div id="home-q1-option7">7</div><div id="home-q1-option8">8</div><div id="home-q1-option9">9</div>
+                                <div id="home-q1-option10">10</div><div class="forward">Next</div>
                             </div>
-                        </div>
+                        </div>  
                         
                         <div id="home-q2" class="question" style="display: none">
                             <div class="text">Question 2(multiple choice)</div>
                             <div class="selections">
                                 <p>Choices:</p>
-                                <div id="q2-option1-sel">1</div>
-                                <div id="q2-option2-sel">2</div>                                
+                                <div id="home-q2-option1-sel">1</div>
+                                <div id="home-q2-option2-sel">2</div>                                
                             </div>
                             <div class="options">
                                 <div class="backward">Back</div>
-                                <div id="q2-option1">1</div>
-                                <div id="q2-option2">2</div>
+                                <div id="home-q2-option1">1</div>
+                                <div id="home-q2-option2">2</div>
                                 <div class="forward">Next</div>
                             </div>
                         </div>
@@ -211,20 +201,35 @@
                             <div class="text">Question 3(single choice)</div>
                             <div class="selections">
                                 <p>Choices:</p>
-                                <div id="q3-option1-sel">1</div>
-                                <div id="q3-option2-sel">2</div>                                
+                                <div id="home-q3-option1-sel">1</div>
+                                <div id="home-q3-option2-sel">2</div>                                
                             </div>
                             <div class="options">
                                 <div class="backward">Back</div>
-                                <div id="q3-option1">1</div>
-                                <div id="q3-option2">2</div>
+                                <div id="home-q3-option1">1</div>
+                                <div id="home-q3-option2">2</div>
                                 <div class="forward">Next</div>
                             </div>
                         </div>
                     </div>
                     <!---------------------------------------- END HOME TREE---------------------------------------->
                     <div id="guns" class="tree">
-                        Guns
+                        <div id="guns-q1" class="question current">
+                            <div class="text">Question 1(multiple choice)</div>
+                            <div class="selections">
+                                <p>Choices:</p>
+                                <div id="guns-q1-option1-sel">1</div><div id="guns-q1-option2-sel">2</div><div id="guns-q1-option3-sel">3</div>
+                                <div id="guns-q1-option4-sel">4</div><div id="guns-q1-option5-sel">5</div><div id="guns-q1-option6-sel">6</div>
+                                <div id="guns-q1-option7-sel">7</div><div id="guns-q1-option8-sel">8</div><div id="guns-q1-option9-sel">9</div>
+                                <div id="guns-q1-option10-sel">10</div> 
+                            </div>
+                            <div class="options">
+                                <div id="guns-q1-option1">1</div><div id="guns-q1-option2">2</div><div id="guns-q1-option3">3</div>
+                                <div id="guns-q1-option4">4</div><div id="guns-q1-option5">5</div><div id="guns-q1-option6">6</div>
+                                <div id="guns-q1-option7">7</div><div id="guns-q1-option8">8</div><div id="guns-q1-option9">9</div>
+                                <div id="guns-q1-option10">10</div><div class="forward">Next</div>
+                            </div>
+                        </div>                        Guns
                     </div>
                     <!---------------------------------------- END GUNS TREE---------------------------------------->
                     <div id="business" class="tree">
